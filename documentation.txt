@@ -1,0 +1,70 @@
+<!-- View start -->
+<form action="" id="customerWiseProduct">
+    <div class="form-group">
+        <label class="col-lg-4 col-md-4 control-label required">Customer ID</label>
+        <div class="col-lg-8 col-md-8">
+            <select required name="customer_id" id="customer_id" data-fv-icon="false" class="select2 form-control ml0">
+                <option value=""></option>
+                @foreach($customers as $customer)
+                <option value="{{$customer->id}}">{{'['.$customer->customer_id.']-'.$customer->name}}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</form>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".select2").select2({
+            placeholder: "Select"
+        });
+
+        // Customer's Details
+        $("#customerWiseProduct").on('change', '#customer_id', function(e) {
+            var customerId = $("#customer_id").val();
+            $.ajax({
+                mimeType: 'text/html; charset=utf-8',
+                url: '{{route("pos.customerSortDetails")}}',
+                data: {customerId:customerId},
+                type: 'GET',
+                dataType: "json",
+                success: function(data) {
+                    $('.customer_name').text(data.name);
+                    $('.contact_person').text(data.contact_by);
+                    $('.phone').text(data.phone);
+                    $('.address').text(data.address);
+                }
+            });
+        });
+
+    });
+
+    function refresh_panel() {
+        $('.customer_name').text('');
+        $('.contact_person').text('');
+        $('.phone').text('');
+        $('.address').text('');
+    }
+</script>
+<!-- View end -->
+
+<!-- function in Controller start-->
+public function customerDetails(Request $request)
+{
+    $customerId = $request->customerId;
+    $data = PosCustomers::valid()->find($customerId);
+    $output = [
+        'name'          => $data->name,
+        'phone'         => $data->phone,
+        'address'       => $data->address,
+        'contact_by'    => $data->contact_by
+    ];
+    echo json_encode($output);
+    // return response()->json($output);
+}
+<!-- function in Controller end-->
+
+<!-- route start -->
+Route::get('customer-sort-details', array('as' =>'customerSortDetails', 'access' => ['resource|customer.index'], 'uses' => 'CustomerController@customerDetails'));
+<!-- route end -->
