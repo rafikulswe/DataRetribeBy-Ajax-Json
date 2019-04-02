@@ -1,14 +1,35 @@
 <!-- View start -->
 <form action="" id="customerWiseProduct">
-    <div class="form-group">
-        <label class="col-lg-4 col-md-4 control-label required">Customer ID</label>
-        <div class="col-lg-8 col-md-8">
-            <select required name="customer_id" id="customer_id" data-fv-icon="false" class="select2 form-control ml0">
-                <option value=""></option>
-                @foreach($customers as $customer)
-                <option value="{{$customer->id}}">{{'['.$customer->customer_id.']-'.$customer->name}}</option>
-                @endforeach
-            </select>
+    <div class="row">
+        <div class="form-group">
+            <label class="col-lg-4 col-md-4 control-label required">Customer ID</label>
+            <div class="col-lg-8 col-md-8">
+                <select required name="customer_id" id="customer_id" data-fv-icon="false" class="select2 form-control ml0">
+                    <option value=""></option>
+                    @foreach($customers as $customer)
+                    <option value="{{$customer->id}}">{{'['.$customer->customer_id.']-'.$customer->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-sm-8 col-xs-12">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-5">Customer Name</div>
+                <div class="col-md-8 col-sm-8 col-xs-7">: <span class="customer_name" style="color:#333"></span></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-5">Contact Person</div>
+                <div class="col-md-8 col-sm-8 col-xs-7">: 
+                    <span class="contact_person" style="color:#333"></span>
+                    <span class="phone" style="color:#333"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-5">Address</div>
+                <div class="col-md-8 col-sm-8 col-xs-7">: <span class="address" style="color:#333"></span></div>
+            </div>
         </div>
     </div>
 </form>
